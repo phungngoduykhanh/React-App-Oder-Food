@@ -2,15 +2,37 @@ import React from "react";
 import { Image, View, Text, StyleSheet } from "react-native";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./components/Home";
 import Chat from "./components/Chat";
 import Cart from "./components/Cart";
 import User from "./components/User";
+import Call from "./components/Call";
 import ChatDetails from "./components/ChatDetails";
 
 const Tab = createBottomTabNavigator();
-// const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
+
+function ChatStack() {
+  return (
+    <Stack.Navigator>
+       <Stack.Screen
+        name="Chat"
+        component={Chat}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ChatDetails"
+        component={ChatDetails}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   return (
@@ -37,21 +59,18 @@ export default function App() {
         })}
         tabBarOptions={{
           showLabel: false,
-          // tabBarStyle: {
-          //   backgroundColor: "yellow", // Màu nền của thanh tab
-          // },
         }}
       >
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="User" component={User} />
+        {/* <Tab.Screen name="Call" component={Call} /> */}
         <Tab.Screen name="Cart" component={Cart} />
-        <Tab.Screen name="Chat" component={Chat} />
-        <Tab.Screen name="ChatDetails" component={ChatDetails} />
+        <Tab.Screen name="Chat" component={ChatStack} />
       </Tab.Navigator>
-
     </NavigationContainer>
   );
 }
+
 const styles = StyleSheet.create({
   name: {
     color: "pink",

@@ -1,16 +1,23 @@
-
 import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity,  ImageBackground, } from "react-native";
-
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 
 export default function Chat({ navigation }) {
   const handleBackPress = () => {
     navigation.goBack();
   };
 
-
   return (
-    <ImageBackground source={require("../assets/Pattern.png")} style={styles.container}>
+    <ImageBackground
+      source={require("../assets/Pattern.png")}
+      style={styles.container}
+    >
       <TouchableOpacity onPress={handleBackPress}>
         <Image
           style={styles.iconBack}
@@ -35,37 +42,48 @@ export default function Chat({ navigation }) {
           <Text style={styles.time}>20:00</Text>
         </View>
       </TouchableOpacity>
-      <View style={styles.userGroup}>
-        <Image
-          style={styles.avatar}
-          source={require("../assets/Avatar_Boy_YellowHair.png")}
-        />
-        <View style={styles.info}>
-          <Text style={styles.userName}>Paul Koch</Text>
-          <Text style={styles.subText}>Your Order Just Arrived!</Text>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("ChatDetails"); // Chuyển hướng sang màn hình ChatDetails
+        }}
+      >
+        <View style={styles.userGroup}>
+          <Image
+            style={styles.avatar}
+            source={require("../assets/Avatar_Boy_YellowHair.png")}
+          />
+          <View style={styles.info}>
+            <Text style={styles.userName}>Paul Koch</Text>
+            <Text style={styles.subText}>Your Order Just Arrived!</Text>
+          </View>
+          <Text style={styles.time}>20:00</Text>
         </View>
-        <Text style={styles.time}>20:00</Text>
-      </View>
-      <View style={styles.userGroup}>
-        <Image
-          style={styles.avatar}
-          source={require("../assets/Avatar_Girl_BlackHair.png")}
-        />
-        <View style={styles.info}>
-          <Text style={styles.userName}>Carla Klein</Text>
-          <Text style={styles.subText}>Your Order Just Arrived!</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("ChatDetails"); // Chuyển hướng sang màn hình ChatDetails
+        }}
+      >
+        <View style={styles.userGroup}>
+          <Image
+            style={styles.avatar}
+            source={require("../assets/Avatar_Girl_BlackHair.png")}
+          />
+          <View style={styles.info}>
+            <Text style={styles.userName}>Carla Klein</Text>
+            <Text style={styles.subText}>Your Order Just Arrived!</Text>
+          </View>
+          <Text style={styles.time}>20:00</Text>
         </View>
-        <Text style={styles.time}>20:00</Text>
-      </View>
+      </TouchableOpacity>
     </ImageBackground>
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#FEFEFF",
+    backgroundColor: "#FEFEFF",
   },
   iconBack: {
     marginLeft: 25,
@@ -80,7 +98,7 @@ const styles = StyleSheet.create({
   },
   userGroup: {
     marginLeft: 28,
-    backgroundColor: "#FFF",
+    backgroundColor: "#F6F6F6",
     width: 355,
     borderRadius: 22,
     flexDirection: "row",
@@ -113,5 +131,3 @@ const styles = StyleSheet.create({
     marginLeft: 50,
   },
 });
-
-

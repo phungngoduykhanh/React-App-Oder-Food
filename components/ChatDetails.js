@@ -1,15 +1,23 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity,ImageBackground } from "react-native";
-
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 
 export default function ChatDetails({ navigation }) {
   const handleBackPress = () => {
     navigation.goBack();
   };
 
-
   return (
-    <ImageBackground source={require("../assets/Pattern_ChatDetails.png")} style={styles.container}>
+    <ImageBackground
+      source={require("../assets/Pattern_ChatDetails.png")}
+      style={styles.container}
+    >
       <TouchableOpacity onPress={handleBackPress}>
         <Image
           style={styles.iconBack}
@@ -33,14 +41,35 @@ export default function ChatDetails({ navigation }) {
           </View>
         </View>
         <Image
-              style={styles.callIcon}
-              source={require("../assets/Call_Icon.png")}
-            />
+          style={styles.callIcon}
+          source={require("../assets/Call_Icon.png")}
+        />
+      </View>
+      <View >
+        <View style={styles.chatGroupAsk}>
+          <View style={styles.chatRetangleAsk}>
+            <Text style={styles.chatText}>Just to order</Text>
+          </View>
+        </View>
+        <View style={styles.chatGroupRe}>
+          <View style={styles.chatRetangleRe}>
+            <Text style={styles.chatTextRe}>Okay, for what level of spiciness?</Text>
+          </View>
+        </View>
+        <View style={styles.chatGroupAsk}>
+          <View style={styles.chatRetangleAsk}>
+            <Text style={styles.chatText}>Just to order</Text>
+          </View>
+        </View>
+        <View style={styles.chatGroupRe}>
+          <View style={styles.chatRetangleRe}>
+            <Text style={styles.chatTextRe}>Okay I'm waiting  👍 </Text>
+          </View>
+        </View>
       </View>
     </ImageBackground>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -60,7 +89,7 @@ const styles = StyleSheet.create({
   },
   userGroup: {
     marginLeft: 28,
-    backgroundColor: "#FFF",
+    backgroundColor: "#6F6F6",
     width: 355,
     borderRadius: 22,
     flexDirection: "row",
@@ -85,15 +114,46 @@ const styles = StyleSheet.create({
     fontSize: 14,
     opacity: 0.3,
   },
-  status:{
-    flexDirection:"row",
-    alignItems:"center"
+  status: {
+    flexDirection: "row",
+    alignItems: "center",
   },
-  statusIcon:{
-    marginRight:5,
+  statusIcon: {
+    marginRight: 5,
   },
   callIcon: {
     marginTop: 20,
     marginLeft: 130,
   },
+  chatGroupAsk: {
+    marginTop: 40,
+    marginLeft: 24,
+  },
+  chatGroupRe: {
+    marginTop: 40,
+    marginLeft: 91,
+  },
+  chatRetangleAsk: {
+    width: 130,
+    borderRadius: 13,
+    backgroundColor: "#F6F6F6",
+  },
+  chatRetangleRe: {
+    width: 300,
+    borderRadius: 13,
+    backgroundColor: "#6B50F6",
+  },
+  chatText: {
+    marginLeft: 12,
+    marginRight: 29,
+    marginTop: 12,
+    marginBottom: 15,
+  },
+  chatTextRe:{
+    color:"#FFF",
+    marginLeft: 12,
+    marginRight: 29,
+    marginTop: 12,
+    marginBottom: 15,
+  }
 });
