@@ -3,37 +3,50 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 const HomeScreen = () => {
+    const navigation = useNavigation();
+    const handleSearch = () => {
+        navigation.navigate('Search')
+    }
+    const handleExploreRestaurant = () => {
+        navigation.navigate('ExploreRestaurant');
+    };
+    const handleExploreMenu = () => {
+        navigation.navigate('ExploreMenu');
+    };
+    const handleNotification = () => {
+        navigation.navigate('Notification')
+    }
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.text}>Find Your{'\n'}Favorite Food</Text>
-                <Image
-                    source={require('../../assets/Home/Notification.png')} // Thay đổi đường dẫn này thành đúng đường dẫn của bạn
-                    style={styles.notificationImage} // Tùy chỉnh kiểu dáng hình ảnh
-                />
-
-
+                <TouchableOpacity onPress={handleNotification}>
+                    <Image
+                        source={require('../../assets/Home/Notification.png')}
+                        style={styles.notificationImage}
+                    />
+                </TouchableOpacity>
             </View >
             <View style={styles.searchBar}>
                 <View style={styles.rectangleSearch}>
-                    <Text style={styles.search}>What do you want to order?</Text>
+                    <Text onPress={handleSearch} style={styles.search}>What do you want to order?</Text>
                 </View>
                 <Image
-                    source={require('../../assets/Home/Search.png')} // Thay đổi đường dẫn này thành đúng đường dẫn của bạn
-                    style={styles.SearchImage} // Tùy chỉnh kiểu dáng hình ảnh
+                    source={require('../../assets/Home/Search.png')}
+                    style={styles.SearchImage}
                 />
                 <View style={styles.rectangleFilter}>
                 </View>
                 <Image
-                    source={require('../../assets/Home/Filter.png')} // Thay đổi đường dẫn này thành đúng đường dẫn của bạn
-                    style={styles.FilterImage} // Tùy chỉnh kiểu dáng hình ảnh
+                    source={require('../../assets/Home/Filter.png')}
+                    style={styles.FilterImage}
                 />
             </View>
 
             <View style={styles.rectangleBody}>
                 <Image
-                    source={require('../../assets/Home/Creem.png')} // Thay đổi đường dẫn này thành đúng đường dẫn của bạn
-                    style={styles.CreemImage} // Tùy chỉnh kiểu dáng hình ảnh
+                    source={require('../../assets/Home/Creem.png')}
+                    style={styles.CreemImage}
                 />
                 <View style={styles.overlay}>
                     <Text style={styles.textSpeccial}>special Deal for{'\n'}October</Text>
@@ -45,7 +58,7 @@ const HomeScreen = () => {
             <View style={styles.titleNearest}>
                 <View style={styles.nearestView}>
                     <Text style={styles.subtextNearest}>Nearest Restaurant</Text>
-                    <Text style={styles.subtextView}>View Morer</Text>
+                    <Text onPress={handleExploreRestaurant} style={styles.subtextView} >View Morer</Text>
                 </View>
                 <View style={styles.horizontalImage}>
                     <View style={styles.imageContainer}>
@@ -65,11 +78,11 @@ const HomeScreen = () => {
                 </View>
 
             </View>
-            {/* ----------------Popular Menu-------------- */}
+
             <View style={styles.titlePopular}>
                 <View style={styles.popularView}>
                     <Text style={styles.subtextNearest}>Popular Menu</Text>
-                    <Text style={styles.subtextView}>View Morer</Text>
+                    <Text style={styles.subtextView} onPress={handleExploreMenu}>View Morer</Text>
                 </View>
                 <View style={styles.subtitlePopular}>
                     <View style={styles.imagePopular}>
@@ -114,27 +127,11 @@ const HomeScreen = () => {
 
                 </View>
             </View>
-            {/* ------------------------------------- */}
+
             <View style={styles.titleNearest}>
                 <View style={styles.nearestView}>
                     <Text style={styles.subtextNearest}>Nearest Restaurant</Text>
-                    <Text style={styles.subtextView}>View Morer</Text>
-                </View>
-                <View style={styles.horizontalImage}>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            source={require('../../assets/Home/Vegan.png')}
-                            style={styles.veganImage}
-                        />
-                        <Text style={styles.imageText}>Vegan</Text>
-                    </View>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            source={require('../../assets/Home/Healthy.png')}
-                            style={styles.healthyImage}
-                        />
-                        <Text style={styles.imageText}>Healthy</Text>
-                    </View>
+                    <Text style={styles.subtextView} onPress={handleExploreRestaurant}>View Morer</Text>
                 </View>
                 <View style={styles.horizontalImage}>
                     <View style={styles.imageContainer}>
@@ -169,8 +166,9 @@ const HomeScreen = () => {
                     </View>
                 </View>
 
+
             </View>
-            {/* ------------------------------------- */}
+
 
         </ScrollView>
     );
@@ -179,6 +177,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
+        marginLeft: 15,
 
     },
     header: {
@@ -239,7 +238,7 @@ const styles = StyleSheet.create({
     FilterImage: {
         position: 'absolute',
         top: 16,
-        left: "84%",
+        left: "81%",
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -298,7 +297,7 @@ const styles = StyleSheet.create({
     },
 
     horizontalImage: {
-        gap: 70,
+        gap: 50,
         justifyContent: 'center',
         flexDirection: 'row',
         alignItems: 'center',
@@ -308,7 +307,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
-        width: 145,
+        width: 155,
         height: 180,
         backgroundColor: '#ffff',
         borderRadius: 22,
@@ -327,12 +326,12 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     veganImage: {
-        width: 100,
-        height: 85,
+        width: 120,
+        height: 90,
     },
     healthyImage: {
-        width: 100,
-        height: 85,
+        width: 120,
+        height: 90,
     },
     subtitlePopular: {
         flex: 1,
@@ -356,6 +355,11 @@ const styles = StyleSheet.create({
         height: 87,
         backgroundColor: '#ffff',
         borderRadius: 22,
+    },
+    imageText: {
+        marginTop: 10,
+        fontWeight: 'bold',
+        fontSize: 16,
     },
 
     greenImage: {
