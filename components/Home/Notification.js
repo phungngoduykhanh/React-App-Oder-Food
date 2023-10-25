@@ -1,6 +1,8 @@
 import React from "react";
 import { View, ImageBackground, StyleSheet, Text, ScrollView, Image, TextInput, FlatList } from "react-native";
+
 const Notification = () => {
+  
     return (
         <ImageBackground source={require('../../assets/Home/Homebackground.png')} style={styles.imageBackground}>
             <ScrollView>

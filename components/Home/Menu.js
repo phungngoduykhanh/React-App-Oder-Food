@@ -30,6 +30,12 @@ const ExploreMenu = () => {
   const handleFilterScreen = () => {
     navigation.navigate('FilterScreen')
   }
+  const handleSearch = () => {
+    navigation.navigate('Search')
+  }
+  const handleNotification = () => {
+    navigation.navigate('Notification')
+  }
   return (
 
     <ScrollView>
@@ -38,12 +44,14 @@ const ExploreMenu = () => {
           <Text style={styles.textFine}>Fine Your</Text>
           <Text style={styles.textFine}>Favorite Food</Text>
         </View>
-        <Image source={require('../../assets/Home/Notification.png')}></Image>
+        <TouchableOpacity onPress={handleNotification}>
+          <Image source={require('../../assets/Home/Notification.png')}></Image>
+          </TouchableOpacity>
       </View>
       <View style={styles.viewSearch}>
         <View style={styles.viewsearch}>
           <Image source={require('../../assets/Home/Search.png')} style={{ position: 'relative', left: 50, top: 13 }}></Image>
-          <TouchableOpacity style={styles.textInput} placeholder="What do you want to order" onPress={handleFilterScreen} />
+          <TouchableOpacity onPress={handleSearch} style={styles.textInput} placeholder="What do you want to order"  />
         </View>
         <Image source={require('../../assets/Home/FilterIcon.png')}></Image>
       </View>

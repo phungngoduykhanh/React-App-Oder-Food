@@ -3,6 +3,8 @@ import { View, ImageBackground, StyleSheet, TouchableOpacity, Text, ScrollView, 
 import { useNavigation } from '@react-navigation/native';
 
 const ExploreRestaurant = () => {
+
+
   const products = [
     { id: 1, image: require('../../assets/Home/Rest-circle.png'), nameProduct: 'Vegan Resto', min: '12 min' },
     { id: 2, image: require('../../assets/Home/Heaththy.png'), nameProduct: 'Vegan Resto', min: '13 min' },
@@ -17,6 +19,12 @@ const ExploreRestaurant = () => {
   const handleFilterScreen = () => {
     navigation.navigate('FilterScreen');
   }
+  const handleSearch = () => {
+    navigation.navigate('Search')
+  }
+  const handleNotification = () => {
+    navigation.navigate('Notification')
+  }
 
   return (
     <ImageBackground source={require('../../assets/Home/Homebackground.png')} style={styles.imageBackground}>
@@ -26,12 +34,14 @@ const ExploreRestaurant = () => {
             <Text style={styles.textFine}>Find Your</Text>
             <Text style={styles.textFine}>Favorite Food</Text>
           </View>
-          <Image source={require('../../assets/Home/Notification.png')} />
+          <TouchableOpacity onPress={handleNotification}>
+            <Image onPress={handleNotification} source={require('../../assets/Home/Notification.png')} />
+          </TouchableOpacity>
         </View>
         <View style={styles.viewSearch}>
           <View style={styles.viewsearch}>
             <Image source={require('../../assets/Home/Search.png')} style={{ position: 'relative', left: 50, top: 13 }} />
-            <TouchableOpacity style={styles.textInput} placeholder="What do you want to order" onPress={handleFilterScreen} />
+            <TouchableOpacity onPress={handleSearch} style={styles.textInput} placeholder="What do you want to order" />
           </View>
           <Image source={require('../../assets/Home/FilterIcon.png')} />
         </View>
@@ -107,8 +117,8 @@ const styles = StyleSheet.create({
     color: '#22242E',
   },
   viewListItem: {
-    paddingTop: 20,  
-    marginLeft:20,
+    paddingTop: 20,
+    marginLeft: 20,
   },
   viewItem: {
     backgroundColor: 'white',
