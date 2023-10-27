@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,12 +6,25 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
+
 } from "react-native";
 
 export default function Chat({ navigation }) {
   const handleBackPress = () => {
     navigation.goBack();
   };
+  useEffect(() => {
+    // Ẩn thanh điều hướng dưới cùng khi vào trang Chat
+    navigation.setOptions({
+      tabBarVisible: false,
+    });
+
+    return () => {
+      navigation.setOptions({
+        tabBarVisible: true, // Hiển thị lại thanh điều hướng khi rời khỏi trang Chat
+      });
+    }
+  }, []);
 
   return (
     <ImageBackground

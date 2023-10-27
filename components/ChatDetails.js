@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,13 +6,17 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
+  TextInput,
 } from "react-native";
 
 export default function ChatDetails({ navigation }) {
   const handleBackPress = () => {
     navigation.goBack();
   };
-
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const fixedElements = 4;
+  const maxMessages = 5;
   return (
     <ImageBackground
       source={require("../assets/Pattern_ChatDetails.png")}
@@ -40,12 +44,18 @@ export default function ChatDetails({ navigation }) {
             <Text style={styles.subText}>Online</Text>
           </View>
         </View>
-        <Image
-          style={styles.callIcon}
-          source={require("../assets/Call_Icon.png")}
-        />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Call");
+          }}
+        >
+          <Image
+            style={styles.callIcon}
+            source={require("../assets/Call_Icon.png")}
+          />
+        </TouchableOpacity>
       </View>
-      <View >
+      <View>
         <View style={styles.chatGroupAsk}>
           <View style={styles.chatRetangleAsk}>
             <Text style={styles.chatText}>Just to order</Text>
@@ -53,7 +63,9 @@ export default function ChatDetails({ navigation }) {
         </View>
         <View style={styles.chatGroupRe}>
           <View style={styles.chatRetangleRe}>
-            <Text style={styles.chatTextRe}>Okay, for what level of spiciness?</Text>
+            <Text style={styles.chatTextRe}>
+              Okay, for what level of spiciness?
+            </Text>
           </View>
         </View>
         <View style={styles.chatGroupAsk}>
@@ -63,9 +75,61 @@ export default function ChatDetails({ navigation }) {
         </View>
         <View style={styles.chatGroupRe}>
           <View style={styles.chatRetangleRe}>
-            <Text style={styles.chatTextRe}>Okay I'm waiting  👍 </Text>
+            <Text style={styles.chatTextRe}>Okay I'm waiting 👍 </Text>
           </View>
         </View>
+      </View>
+      <View style={styles.chat}>
+        <TextInput
+          style={styles.textInput}
+          value={message}
+          onChangeText={(text) => setMessage(text)}
+          placeholder="Type a message..."
+        ></TextInput>
+        <TouchableOpacity
+          onPress={() => {
+            // Tạo tin nhắn mới
+            const newMessage = {
+              text: message,
+              type: "sent",
+            };
+            // Thêm tin nhắn mới vào danh sách
+            const totalElements = messages.length + fixedElements;
+            // Thêm tin nhắn mới vào đầu danh sách
+            setMessages([newMessage, ...messages]);
+            // Kiểm tra xem tổng số phần tử có vượt quá giới hạn không
+            if (totalElements > maxMessages) {
+              // Nếu vượt quá, loại bỏ các tin nhắn và phần tử cố định cũ hơn
+              setMessages(messages.slice(0, maxMessages - fixedElements));
+            }
+            setMessage("");
+          }}
+        >
+          <Image
+            style={styles.sendIcon}
+            source={require("../assets/Icon_Send.png")}
+          />
+        </TouchableOpacity>
+      </View>
+      <View>
+        {messages.map((message, index) => (
+          <View
+            key={index}
+            style={
+              message.type === "sent" ? styles.chatGroupAsk : styles.chatGroupRe
+            }
+          >
+            <View
+              style={
+                message.type === "sent"
+                  ? styles.chatRetangleAsk
+                  : styles.chatRetangleRe
+              }
+            >
+              <Text style={styles.chatText}>{message.text}</Text>
+            </View>
+          </View>
+        ))}
       </View>
     </ImageBackground>
   );
@@ -74,7 +138,7 @@ export default function ChatDetails({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#FEFEFF",
+    backgroundColor: "#FEFEFF",
   },
   iconBack: {
     marginLeft: 25,
@@ -93,7 +157,7 @@ const styles = StyleSheet.create({
     width: 355,
     borderRadius: 22,
     flexDirection: "row",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   avatar: {
     marginTop: 10,
@@ -126,11 +190,11 @@ const styles = StyleSheet.create({
     marginLeft: 130,
   },
   chatGroupAsk: {
-    marginTop: 40,
+    marginTop: 30,
     marginLeft: 24,
   },
   chatGroupRe: {
-    marginTop: 40,
+    marginTop: 30,
     marginLeft: 91,
   },
   chatRetangleAsk: {
@@ -149,11 +213,30 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginBottom: 15,
   },
-  chatTextRe:{
-    color:"#FFF",
+  chatTextRe: {
+    color: "#FFF",
     marginLeft: 12,
     marginRight: 29,
     marginTop: 12,
     marginBottom: 15,
-  }
+  },
+  chat: {
+    width: "100%",
+    height: 74,
+    backgroundColor: "#FFF",
+    borderWidth: 1,
+    borderColor: "#F0F0F0",
+    borderRadius: 22,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    position: "absolute",
+    bottom: 0,
+  },
+  textInput: {
+    marginLeft: 25,
+  },
+  sendIcon: {
+    marginRight: 25,
+    marginTop: 25,
+  },
 });
