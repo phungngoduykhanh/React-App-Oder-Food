@@ -28,7 +28,7 @@ export default function Call({ navigation }) {
       source={require("../assets/Pattern_ChatDetails.png")}
       style={styles.container}
     >
-      <View style={styles.user}>x
+      <View style={styles.user}>
         <Image
           style={styles.avatar}
           source={require("../assets/Avatar_Call.png")}
@@ -36,14 +36,15 @@ export default function Call({ navigation }) {
       </View>
       <Text style={styles.name}>Richard Lewis</Text>
       <Text style={styles.des}>Ringing . . .</Text>
+
       <View style={styles.iconGroup}>
-        <TouchableOpacity style={styles.imageOverlay} onPress={handleImageChange}>
+        <TouchableOpacity
+          style={styles.imageOverlay}
+          onPress={handleImageChange}
+        >
           <View style={styles.volum}>
             <View style={styles.volumBackground}>
-              <Image
-                style={styles.ringingIcon}
-                source={imageSource}
-              />
+              <Image style={styles.ringingIcon} source={imageSource} />
             </View>
           </View>
         </TouchableOpacity>
@@ -89,17 +90,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 177,
   },
-  imageOverlay:{
-    marginRight:20,
+  imageOverlay: {
+    marginRight: 20,
   },
   volum: {
     width: 78,
     height: 78,
     borderRadius: 50,
-    overflow:"hidden",
+    overflow: "hidden",
   },
-  volumBackground:{
-    flex:1,
+  volumBackground: {
+    flex: 1,
     backgroundColor: "rgba(107, 80, 246, 0.1)",
     display: "flex",
     justifyContent: "center",

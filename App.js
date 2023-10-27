@@ -38,9 +38,9 @@ export default function App() {
         <Stack.Screen
           name="Call"
           component={Call}
-          // options={{
-          //   headerShown: false,
-          // }}
+          options={{
+            headerShown: false,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
