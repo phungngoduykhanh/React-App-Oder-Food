@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,24 +6,47 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
-
 } from "react-native";
 
 export default function Chat({ navigation }) {
   const handleBackPress = () => {
     navigation.goBack();
   };
+
+  const users = [
+    {
+      id: 1,
+      name: "Louis Kelly",
+      imageSource: require("../assets/Avatar_Boy_BlackHair.png"),
+      lastMessage: "Your Order Just Arrived!",
+      time: "20:00",
+    },
+    {
+      id: 2,
+      name: "Paul Koch",
+      imageSource: require("../assets/Avatar_Boy_YellowHair.png"),
+      lastMessage: "Your Order Just Arrived!",
+      time: "20:00",
+    },
+    {
+      id: 3,
+      name: "Carla Klein",
+      imageSource: require("../assets/Avatar_Girl_BlackHair.png"),
+      lastMessage: "Your Order Just Arrived!",
+      time: "20:00",
+    },
+  ];
+
   useEffect(() => {
-    // Ẩn thanh điều hướng dưới cùng khi vào trang Chat
     navigation.setOptions({
       tabBarVisible: false,
     });
 
     return () => {
       navigation.setOptions({
-        tabBarVisible: true, // Hiển thị lại thanh điều hướng khi rời khỏi trang Chat
+        tabBarVisible: true,
       });
-    }
+    };
   }, []);
 
   return (
@@ -38,57 +61,24 @@ export default function Chat({ navigation }) {
         />
       </TouchableOpacity>
       <Text style={styles.text}>Chat</Text>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("ChatDetails"); // Chuyển hướng sang màn hình ChatDetails
-        }}
-      >
-        <View style={styles.userGroup}>
-          <Image
-            style={styles.avatar}
-            source={require("../assets/Avatar_Boy_BlackHair.png")}
-          />
-          <View style={styles.info}>
-            <Text style={styles.userName}>Louis Kelly</Text>
-            <Text style={styles.subText}>Your Order Just Arrived!</Text>
+
+      {users.map((user) => (
+        <TouchableOpacity
+          key={user.id}
+          onPress={() => {
+            navigation.navigate("ChatDetails", { user }); // Truyền thông tin của người dùng đã chọn
+          }}
+        >
+          <View style={styles.userGroup}>
+            <Image style={styles.avatar} source={user.imageSource} />
+            <View style={styles.info}>
+              <Text style={styles.userName}>{user.name}</Text>
+              <Text style={styles.subText}>{user.lastMessage}</Text>
+            </View>
+            <Text style={styles.time}>{user.time}</Text>
           </View>
-          <Text style={styles.time}>20:00</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("ChatDetails"); // Chuyển hướng sang màn hình ChatDetails
-        }}
-      >
-        <View style={styles.userGroup}>
-          <Image
-            style={styles.avatar}
-            source={require("../assets/Avatar_Boy_YellowHair.png")}
-          />
-          <View style={styles.info}>
-            <Text style={styles.userName}>Paul Koch</Text>
-            <Text style={styles.subText}>Your Order Just Arrived!</Text>
-          </View>
-          <Text style={styles.time}>20:00</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("ChatDetails"); // Chuyển hướng sang màn hình ChatDetails
-        }}
-      >
-        <View style={styles.userGroup}>
-          <Image
-            style={styles.avatar}
-            source={require("../assets/Avatar_Girl_BlackHair.png")}
-          />
-          <View style={styles.info}>
-            <Text style={styles.userName}>Carla Klein</Text>
-            <Text style={styles.subText}>Your Order Just Arrived!</Text>
-          </View>
-          <Text style={styles.time}>20:00</Text>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      ))}
     </ImageBackground>
   );
 }

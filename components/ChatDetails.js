@@ -88,18 +88,13 @@ export default function ChatDetails({ navigation }) {
         ></TextInput>
         <TouchableOpacity
           onPress={() => {
-            // Tạo tin nhắn mới
             const newMessage = {
               text: message,
               type: "sent",
             };
-            // Thêm tin nhắn mới vào danh sách
             const totalElements = messages.length + fixedElements;
-            // Thêm tin nhắn mới vào đầu danh sách
             setMessages([newMessage, ...messages]);
-            // Kiểm tra xem tổng số phần tử có vượt quá giới hạn không
             if (totalElements > maxMessages) {
-              // Nếu vượt quá, loại bỏ các tin nhắn và phần tử cố định cũ hơn
               setMessages(messages.slice(0, maxMessages - fixedElements));
             }
             setMessage("");
