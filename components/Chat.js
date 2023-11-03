@@ -98,14 +98,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 19,
     marginLeft: 25,
+    marginBottom:22,
   },
   userGroup: {
-    marginLeft: 28,
+    marginLeft:"auto",
+    marginRight:"auto",
     backgroundColor: "#F6F6F6",
-    width: 355,
+    width: 400,
     borderRadius: 22,
     flexDirection: "row",
     marginBottom: 20,
+    
   },
   avatar: {
     marginTop: 10,
@@ -131,6 +134,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     opacity: 0.3,
     marginTop: 20,
-    marginLeft: 50,
+    marginLeft: 100,
   },
 });

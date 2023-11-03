@@ -89,6 +89,11 @@ const HomeScreen = () => {
                     <Text style={styles.subtextNearest}>Popular Menu</Text>
                     <Text style={styles.subtextView} onPress={handleExploreMenu}>View Morer</Text>
                 </View>
+                <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("DetailMenu");
+                }}
+              >
                 <View style={styles.subtitlePopular}>
                     <View style={styles.imagePopular}>
                         <Image
@@ -131,6 +136,7 @@ const HomeScreen = () => {
                     </View>
 
                 </View>
+                </TouchableOpacity>
             </View>
 
             <View style={styles.titleNearest}>
