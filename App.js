@@ -14,7 +14,12 @@ import Restaurant from './components/Home/Restaurant';
 import Notification from './components/Home/Notification';
 import OderDetail from "./components/OderDetail/OderDetail";
 import ConfirmOder from "./components/ConfirmOder/ConfirmOder";
-
+import SignUp from "./screens/SignUp";
+import Register from "./screens/Register";
+import UploadPhoto from "./screens/UploadPhoto";
+import UploadPreview from "./screens/UploadPreview";
+import SetLocation from "./screens/SetLocation";
+import SignUpSuccess from "./screens/SignUpSuccess";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -60,8 +65,54 @@ export default function App() {
             headerShown: false,
           }}
         />
+         <Stack.Screen
+          name="SignUp"
+          component={SignUp}
 
-       
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="Register"
+          component={Register}
+
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="UploadPhoto"
+          component={UploadPhoto}
+
+          options={{
+            headerShown: false,
+          }}
+        />
+       <Stack.Screen
+          name="UploadPreview"
+          component={UploadPreview}
+
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="SetLocation"
+          component={SetLocation}
+
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SignUpSuccess"
+          component={SignUpSuccess}
+
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name="Search"
           component={SearchScreen}
