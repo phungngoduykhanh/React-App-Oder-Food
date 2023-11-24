@@ -9,13 +9,7 @@ import {
   TextInput,
 } from "react-native";
 
-export default function SignIn({ navigation }) {
-  const handleSignUpClick = () => {
-    navigation.navigate("SignUp");
-  };
-  const handleRegisterClick = () => {
-    navigation.navigate("Register");
-  };
+export default function SignUp({ navigation }) {
   return (
     <ImageBackground
       source={require("../assets/Pattern_ChatDetails.png")}
@@ -27,19 +21,7 @@ export default function SignIn({ navigation }) {
           source={require("../assets/Group_SignIn.png")}
         />
         <Text style={styles.didFood}>DIDFOOD</Text>
-        <Text style={styles.signinText}>Sign Up For Free</Text>
-
-        <View style={styles.inputContainer}>
-          <Image
-            source={require("../assets/Profile.png")}
-            style={styles.inputIcon}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="madeofzero . . |"
-            placeholderTextColor="#22242E"
-          />
-        </View>
+        <Text style={styles.signinText}>Login To Your Account</Text>
         <View style={styles.inputContainer}>
           <Image
             source={require("../assets/Message.png")}
@@ -61,40 +43,32 @@ export default function SignIn({ navigation }) {
             placeholder="Password"
             placeholderTextColor="#22242E"
           />
-          <Image
-            source={require("../assets/Show.png")}
-            style={styles.inputIconShow}
-          />
         </View>
-        <View style={styles.checkBox}>
-          <View style={styles.check}>
+        <Text style={styles.textCon}>Or Continue With</Text>
+        <View style={styles.menthodSigninGroup}>
+          <TouchableOpacity style={styles.menthodSignin}>
             <Image
-              source={require("../assets/check.png")}
+              source={require("../assets/Icon_Facebook.png")}
               style={styles.inputIcon}
             />
-          </View>
-          <Text style={styles.checkText}>Keep Me Signed In</Text>
-        </View>
-        <View style={styles.checkBox}>
-          <View style={styles.check}>
+            <Text style={styles.menthodText}>Facebook</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menthodSignin}>
             <Image
-              source={require("../assets/check.png")}
+              source={require("../assets/Icon_Google.png")}
               style={styles.inputIcon}
             />
-          </View>
-          <Text style={styles.checkText}>Email Me About Special Pricing</Text>
+            <Text style={styles.menthodText}>Google</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.createAccountButton}>
-          <Text
-            style={styles.createAccountButtonText}
-            onPress={handleRegisterClick}
-          >
-            Create Account
-          </Text>
+
+        <Text style={styles.tex}>Forgot Your Password?</Text>
+        <TouchableOpacity
+          style={styles.createAccountButton}
+         
+        >
+          <Text style={styles.createAccountButtonText}>Login</Text>
         </TouchableOpacity>
-        <Text style={styles.tex} onPress={handleSignUpClick}>
-          already have an account?
-        </Text>
       </View>
     </ImageBackground>
   );
@@ -125,7 +99,7 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: 32,
-    marginTop: 10,
+    marginTop: 20,
   },
   inputContainer: {
     flexDirection: "row",
@@ -151,24 +125,36 @@ const styles = StyleSheet.create({
     alignItems: "center",
     opacity: 0.3,
   },
-  check: {
-    width: 24,
-    height: 24,
-    backgroundColor: "#6B50F6",
-    borderRadius: 15,
-    marginLeft: 50,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  checkBox: {
-    flexDirection: "row",
-    marginBottom: 20,
-  },
-  checkText: {
-    marginLeft: 10,
+  textCon: {
+    marginTop: 20,
+    marginLeft: "auto",
+    marginRight: "auto",
     color: "#22242E",
     fontSize: 15,
-    opacity: 0.5,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  menthodSigninGroup: {
+    flexDirection: "row",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginBottom: 20,
+  },
+  menthodSignin: {
+    flexDirection: "row",
+    width: 150,
+    height: 57,
+    backgroundColor: "#fff",
+    elevation: 3,
+    borderRadius: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 20,
+  },
+  menthodText: {
+    color: "#22242E",
+    fontSize: 14,
+    fontWeight: "bold",
   },
   createAccountButton: {
     width: 175,
@@ -191,6 +177,6 @@ const styles = StyleSheet.create({
     color: "#6B50F6",
     marginLeft: "auto",
     marginRight: "auto",
-    marginTop: 10,
+    marginBottom: 30,
   },
 });
