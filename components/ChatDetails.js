@@ -145,14 +145,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 19,
     marginLeft: 25,
+    marginBottom:32,
   },
   userGroup: {
-    marginLeft: 28,
-    backgroundColor: "#6F6F6",
-    width: 355,
+    marginLeft:"auto",
+    marginRight:"auto",
+    backgroundColor: "#FFF",
+    width: 400,
+    height:93,
     borderRadius: 22,
     flexDirection: "row",
     marginBottom: 10,
+  
   },
   avatar: {
     marginTop: 10,
@@ -182,7 +186,7 @@ const styles = StyleSheet.create({
   },
   callIcon: {
     marginTop: 20,
-    marginLeft: 130,
+   marginLeft:180,
   },
   chatGroupAsk: {
     marginTop: 30,
@@ -190,7 +194,7 @@ const styles = StyleSheet.create({
   },
   chatGroupRe: {
     marginTop: 30,
-    marginLeft: 91,
+    marginLeft:110,
   },
   chatRetangleAsk: {
     width: 130,

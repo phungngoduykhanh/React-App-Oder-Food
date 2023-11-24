@@ -6,7 +6,7 @@ import ChatDetails from "./components/ChatDetails";
 import Chat from "./components/Chat";
 import BottomTab from "./navigation/BottomTab";
 import Call from "./screens/Call";
-
+import DetailMenu from "./screens/DetailMenu";
 import HomeScreen from './components/Home/Home';
 import SearchScreen from './components/Home/SearchScreen';
 import Menu from './components/Home/Menu';
@@ -54,10 +54,19 @@ export default function App() {
             name="Call"
             component={Call}
 
-            options={{
-              headerShown: false,
-            }}
-          />
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="DetailMenu"
+          component={DetailMenu}
+
+          options={{
+            headerShown: false,
+          }}
+        />
+
 
 
           <Stack.Screen
