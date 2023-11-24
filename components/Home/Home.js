@@ -17,10 +17,6 @@ const HomeScreen = () => {
         navigation.navigate('Notification')
     }
 
-    const handleLinkPress = () => {
-        navigation.navigate('OderDetail')
-    };
-
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.header}>
@@ -56,7 +52,7 @@ const HomeScreen = () => {
                 <View style={styles.overlay}>
                     <Text style={styles.textSpeccial}>special Deal for{'\n'}October</Text>
                     <View style={styles.rectangleBuy}>
-                        <TouchableOpacity onPress={handleLinkPress} ><Text style={styles.buyNowText} >Buy Now</Text></TouchableOpacity>
+                        <TouchableOpacity><Text style={styles.buyNowText} >Buy Now</Text></TouchableOpacity>
                     </View>
                 </View>
             </View>
