@@ -3,7 +3,7 @@ import { Image, View, Text, StyleSheet } from "react-native";
 import React from "react";
 import Home from '../components/Home/Home';
 import User from "../components/User";
-import Cart from "../components/Cart";
+import Cart from "../components/OderDetail/OderDetail";
 import Chat from "../components/Chat";
 const Tab = createBottomTabNavigator();
 
