@@ -1,298 +1,87 @@
-import { TouchableOpacity, Image, ImageBackground, ScrollView } from 'react-native';
+import { TouchableOpacity, Image, ImageBackground, ScrollView, FlatList } from 'react-native';
 import { View, Text, StyleSheet } from 'react-native'
 import bg from "../../assets/bg-detail.png";
-import Swipeout from 'react-native-swipeout';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import BackButton from "../../assets/BackButton.png";
+import Item from './Item/Item';
+import { TotalContext } from './TotalContext/TotalContext';
 
 export default function OderDetail() {
 
     const navigation = useNavigation();
 
+    const [items, setItems] = useState([
+        { id: 1, name: 'Spacy fresh crab', subName: 'Waroenk kita', price: 35, quantity: 1, image: require("../../assets/Food1.png") },
+        { id: 2, name: 'Spacy fresh crab', subName: 'Waroenk kita', price: 50, quantity: 1, image: require("../../assets/Food2.png") },
+    ]);
+
+    const { total, setTotal } = useContext(TotalContext);
+
+    useEffect(() => {
+        const initialTotal = caculateTotalPrice(items);
+        setTotal(initialTotal);
+    }, []);
+
     const handleBackButton = () => {
         navigation.navigate('Home')
     };
 
-    var swipeoutBtns = [
-        {
-            component: (
-                <View
-                    style={{
-                        flex: 1,
-                        backgroundColor: 'rgba(107, 81, 246, 1)',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+    const updateQuantity = (id, newQuantity) => {
+        const updatedItems = items.map(item => {
+            if (item.id === id) {
+                return { ...item, quantity: newQuantity };
+            }
+            return item;
+        });
+        setItems(updatedItems);
 
-                    }}
-                >
-                    <FontAwesomeIcon icon={faTrashCan} color='white' />
-                </View>
-            )
-        }
-    ]
+        const newTotal = caculateTotalPrice(updatedItems);
+        setTotal(newTotal)
+    }
+
+    const caculateTotalPrice = (updatedItems) => {
+        const total = updatedItems.reduce((acc, item) => {
+            return acc + (item.price * item.quantity);
+        }, 0);
+        return total;
+    }
+
+    const handleDeleteItem = (id) => {
+        const updatedItems = items.filter(item => item.id !== id);
+        setItems(updatedItems);
+        const newTotal = caculateTotalPrice(updatedItems);
+        setTotal(newTotal);
+    }
+
 
     return (
         <View style={styles.container}>
             <ImageBackground source={bg} style={styles.image}>
                 <TouchableOpacity onPress={handleBackButton} style={{ marginLeft: 25, marginBottom: 15 }}><Image source={BackButton}></Image></TouchableOpacity>
                 <Text style={styles.text}>Oder Detail</Text>
-                <ScrollView style={{ flex: 1 }}>
-                    <View style={styles.item}>
-                        <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20, }}>
-                            <View style={styles.itemContent}>
-                                <Image source={require("../../assets/Food1.png")} />
-                                <View >
-                                    <Text style={styles.name} >Spacy fresh crab</Text>
-                                    <Text style={styles.subName} >Waroenk kita</Text>
-                                    <Text style={styles.moneyText}>$ 35</Text>
-                                </View>
-                                <View style={styles.count}>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Minus.png")}></Image></TouchableOpacity>
 
-                                    <View style={[{ marginHorizontal: 10 }]}>
-                                        <Text>1</Text>
-                                    </View>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Plus.png")}></Image></TouchableOpacity>
-                                </View>
-                            </View>
-                        </Swipeout>
-                    </View>
-                    <View style={styles.item}>
-                        <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20, }}>
-                            <View style={styles.itemContent}>
-                                <Image source={require("../../assets/Food1.png")} />
-                                <View >
-                                    <Text style={styles.name} >Spacy fresh crab</Text>
-                                    <Text style={styles.subName} >Waroenk kita</Text>
-                                    <Text style={styles.moneyText}>$ 35</Text>
-                                </View>
-                                <View style={styles.count}>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Minus.png")}></Image></TouchableOpacity>
 
-                                    <View style={[{ marginHorizontal: 10 }]}>
-                                        <Text>1</Text>
-                                    </View>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Plus.png")}></Image></TouchableOpacity>
-                                </View>
-                            </View>
-                        </Swipeout>
-                    </View>
-                    <View style={styles.item}>
-                        <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20, }}>
-                            <View style={styles.itemContent}>
-                                <Image source={require("../../assets/Food1.png")} />
-                                <View >
-                                    <Text style={styles.name} >Spacy fresh crab</Text>
-                                    <Text style={styles.subName} >Waroenk kita</Text>
-                                    <Text style={styles.moneyText}>$ 35</Text>
-                                </View>
-                                <View style={styles.count}>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Minus.png")}></Image></TouchableOpacity>
+                <FlatList data={items}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <Item item={item} updateQuantity={updateQuantity} deleteItem={handleDeleteItem} />
+                    )}
+                />
 
-                                    <View style={[{ marginHorizontal: 10 }]}>
-                                        <Text>1</Text>
-                                    </View>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Plus.png")}></Image></TouchableOpacity>
-                                </View>
-                            </View>
-                        </Swipeout>
-                    </View>
-                    <View style={styles.item}>
-                        <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20, }}>
-                            <View style={styles.itemContent}>
-                                <Image source={require("../../assets/Food1.png")} />
-                                <View >
-                                    <Text style={styles.name} >Spacy fresh crab</Text>
-                                    <Text style={styles.subName} >Waroenk kita</Text>
-                                    <Text style={styles.moneyText}>$ 35</Text>
-                                </View>
-                                <View style={styles.count}>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Minus.png")}></Image></TouchableOpacity>
+                <MenuTotal total={total} url={'ConfirmOder'}/>
 
-                                    <View style={[{ marginHorizontal: 10 }]}>
-                                        <Text>1</Text>
-                                    </View>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Plus.png")}></Image></TouchableOpacity>
-                                </View>
-                            </View>
-                        </Swipeout>
-                    </View>
-                    <View style={styles.item}>
-                        <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20, }}>
-                            <View style={styles.itemContent}>
-                                <Image source={require("../../assets/Food1.png")} />
-                                <View >
-                                    <Text style={styles.name} >Spacy fresh crab</Text>
-                                    <Text style={styles.subName} >Waroenk kita</Text>
-                                    <Text style={styles.moneyText}>$ 35</Text>
-                                </View>
-                                <View style={styles.count}>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Minus.png")}></Image></TouchableOpacity>
-
-                                    <View style={[{ marginHorizontal: 10 }]}>
-                                        <Text>1</Text>
-                                    </View>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Plus.png")}></Image></TouchableOpacity>
-                                </View>
-                            </View>
-                        </Swipeout>
-                    </View>
-                    <View style={styles.item}>
-                        <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20, }}>
-                            <View style={styles.itemContent}>
-                                <Image source={require("../../assets/Food1.png")} />
-                                <View >
-                                    <Text style={styles.name} >Spacy fresh crab</Text>
-                                    <Text style={styles.subName} >Waroenk kita</Text>
-                                    <Text style={styles.moneyText}>$ 35</Text>
-                                </View>
-                                <View style={styles.count}>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Minus.png")}></Image></TouchableOpacity>
-
-                                    <View style={[{ marginHorizontal: 10 }]}>
-                                        <Text>1</Text>
-                                    </View>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Plus.png")}></Image></TouchableOpacity>
-                                </View>
-                            </View>
-                        </Swipeout>
-                    </View>
-                    <View style={styles.item}>
-                        <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20, }}>
-                            <View style={styles.itemContent}>
-                                <Image source={require("../../assets/Food1.png")} />
-                                <View >
-                                    <Text style={styles.name} >Spacy fresh crab</Text>
-                                    <Text style={styles.subName} >Waroenk kita</Text>
-                                    <Text style={styles.moneyText}>$ 35</Text>
-                                </View>
-                                <View style={styles.count}>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Minus.png")}></Image></TouchableOpacity>
-
-                                    <View style={[{ marginHorizontal: 10 }]}>
-                                        <Text>1</Text>
-                                    </View>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Plus.png")}></Image></TouchableOpacity>
-                                </View>
-                            </View>
-                        </Swipeout>
-                    </View>
-                    <View style={styles.item}>
-                        <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20, }}>
-                            <View style={styles.itemContent}>
-                                <Image source={require("../../assets/Food1.png")} />
-                                <View >
-                                    <Text style={styles.name} >Spacy fresh crab</Text>
-                                    <Text style={styles.subName} >Waroenk kita</Text>
-                                    <Text style={styles.moneyText}>$ 35</Text>
-                                </View>
-                                <View style={styles.count}>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Minus.png")}></Image></TouchableOpacity>
-
-                                    <View style={[{ marginHorizontal: 10 }]}>
-                                        <Text>1</Text>
-                                    </View>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Plus.png")}></Image></TouchableOpacity>
-                                </View>
-                            </View>
-                        </Swipeout>
-                    </View>
-                    <View style={styles.item}>
-                        <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20, }}>
-                            <View style={styles.itemContent}>
-                                <Image source={require("../../assets/Food1.png")} />
-                                <View >
-                                    <Text style={styles.name} >Spacy fresh crab</Text>
-                                    <Text style={styles.subName} >Waroenk kita</Text>
-                                    <Text style={styles.moneyText}>$ 35</Text>
-                                </View>
-                                <View style={styles.count}>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Minus.png")}></Image></TouchableOpacity>
-
-                                    <View style={[{ marginHorizontal: 10 }]}>
-                                        <Text>1</Text>
-                                    </View>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Plus.png")}></Image></TouchableOpacity>
-                                </View>
-                            </View>
-                        </Swipeout>
-                    </View>
-                    <View style={styles.item}>
-                        <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20, }}>
-                            <View style={styles.itemContent}>
-                                <Image source={require("../../assets/Food1.png")} />
-                                <View >
-                                    <Text style={styles.name} >Spacy fresh crab</Text>
-                                    <Text style={styles.subName} >Waroenk kita</Text>
-                                    <Text style={styles.moneyText}>$ 35</Text>
-                                </View>
-                                <View style={styles.count}>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Minus.png")}></Image></TouchableOpacity>
-
-                                    <View style={[{ marginHorizontal: 10 }]}>
-                                        <Text>1</Text>
-                                    </View>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Plus.png")}></Image></TouchableOpacity>
-                                </View>
-                            </View>
-                        </Swipeout>
-                    </View>
-                    <View style={styles.item}>
-                        <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20, }}>
-                            <View style={styles.itemContent}>
-                                <Image source={require("../../assets/Food1.png")} />
-                                <View >
-                                    <Text style={styles.name} >Spacy fresh crab</Text>
-                                    <Text style={styles.subName} >Waroenk kita</Text>
-                                    <Text style={styles.moneyText}>$ 35</Text>
-                                </View>
-                                <View style={styles.count}>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Minus.png")}></Image></TouchableOpacity>
-
-                                    <View style={[{ marginHorizontal: 10 }]}>
-                                        <Text>1</Text>
-                                    </View>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Plus.png")}></Image></TouchableOpacity>
-                                </View>
-                            </View>
-                        </Swipeout>
-                    </View>
-                    <View style={styles.item}>
-                        <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20, }}>
-                            <View style={styles.itemContent}>
-                                <Image source={require("../../assets/Food1.png")} />
-                                <View >
-                                    <Text style={styles.name} >Spacy fresh crab</Text>
-                                    <Text style={styles.subName} >Waroenk kita</Text>
-                                    <Text style={styles.moneyText}>$ 35</Text>
-                                </View>
-                                <View style={styles.count}>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Minus.png")}></Image></TouchableOpacity>
-
-                                    <View style={[{ marginHorizontal: 10 }]}>
-                                        <Text>1</Text>
-                                    </View>
-                                    <TouchableOpacity><Image style={[{ marginHorizontal: 10 }]} source={require("../../assets/Icon-Plus.png")}></Image></TouchableOpacity>
-                                </View>
-                            </View>
-                        </Swipeout>
-                    </View>
-                </ScrollView>
-
-                <MenuTotal />
 
             </ImageBackground>
         </View>
     )
 }
 
-export function MenuTotal() {
+export function MenuTotal({ total, url }) {
     const navigation = useNavigation();
 
-    const handleConfirmOder = () => {
-        navigation.navigate('ConfirmOder')
+    const handleConfirmOder = (url) => {
+        navigation.navigate(url);
     };
     return (
         <View style={{ width: "100%", height: 275, backgroundColor: "white", position: "absolute", bottom: 0 }}>
@@ -301,7 +90,7 @@ export function MenuTotal() {
                 <View >
                     <View style={[styles.count, { justifyContent: "space-between", marginHorizontal: 20, marginTop: 20 }]}>
                         <Text style={styles.textColor}>Sub-Total</Text>
-                        <Text style={styles.textColor}>123 $</Text>
+                        <Text style={styles.textColor}>{total} $</Text>
                     </View>
                     <View style={[styles.count, { justifyContent: "space-between", marginHorizontal: 20 }]}>
                         <Text style={styles.textColor}>Delivery Charge</Text>
@@ -314,9 +103,9 @@ export function MenuTotal() {
 
                     <View style={[styles.count, { justifyContent: "space-between", marginHorizontal: 20, marginVertical: 17 }]}>
                         <Text style={[styles.textColor, { fontSize: 18, fontWeight: 700 }]}>Total</Text>
-                        <Text style={[styles.textColor, { fontSize: 18, fontWeight: 700 }]}>120 $</Text>
+                        <Text style={[styles.textColor, { fontSize: 18, fontWeight: 700 }]}>{total} $</Text>
                     </View>
-                    <TouchableOpacity onPress={handleConfirmOder} style={{ backgroundColor: "white", width: 300, height: 48, marginHorizontal: 13, justifyContent: "center", alignItems: "center", borderRadius: 10, marginLeft: 45 }} >
+                    <TouchableOpacity onPress={()=>handleConfirmOder(url)} style={{ backgroundColor: "white", width: 300, height: 48, marginHorizontal: 13, justifyContent: "center", alignItems: "center", borderRadius: 10, marginLeft: 45 }} >
                         <Text style={[styles.buttonText, { color: "#6B50F6", fontWeight: 700 }]}>Place My Order</Text>
                     </TouchableOpacity>
                 </View>

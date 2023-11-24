@@ -14,6 +14,11 @@ import Restaurant from './components/Home/Restaurant';
 import Notification from './components/Home/Notification';
 import OderDetail from "./components/OderDetail/OderDetail";
 import ConfirmOder from "./components/ConfirmOder/ConfirmOder";
+import { TotalProvider } from "./components/OderDetail/TotalContext/TotalContext";
+import YourComponent from "./components/DetailProduct/DetailProduct";
+import Payment from "./components/Payment/Payment";
+import Shipping from "./components/Shipping/Shipping";
+import Map from "./components/Map/Map";
 
 
 const Stack = createNativeStackNavigator();
@@ -21,32 +26,33 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="BottomTab"
-          component={BottomTab}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Chat"
-          component={Chat}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="ChatDetails"
-          component={ChatDetails}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Call"
-          component={Call}
+    <TotalProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="BottomTab"
+            component={BottomTab}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Chat"
+            component={Chat}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="ChatDetails"
+            component={ChatDetails}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Call"
+            component={Call}
 
           options={{
             headerShown: false,
@@ -61,21 +67,24 @@ export default function App() {
           }}
         />
 
-       
-        <Stack.Screen
-          name="Search"
-          component={SearchScreen}
-          options={{ title: 'Tìm kiếm', headerShown: true }} // Hiển thị tiêu đề
-        />
-        <Stack.Screen name="ExploreRestaurant" component={Restaurant} options={{ headerShown: false }} />
-        <Stack.Screen name="ExploreMenu" component={Menu} options={{ headerShown: false }} />
-        <Stack.Screen name="Notification" component={Notification} options={{ headerShown: false }} />
 
-        <Stack.Screen name="OderDetail" component={OderDetail} options={{ headerShown: false }} />
 
-        <Stack.Screen name="ConfirmOder" component={ConfirmOder} options={{ headerShown: false }} />
+          <Stack.Screen
+            name="Search"
+            component={SearchScreen}
+            options={{ title: 'Tìm kiếm', headerShown: true }} // Hiển thị tiêu đề
+          />
+          <Stack.Screen name="ExploreRestaurant" component={Restaurant} options={{ headerShown: false }} />
+          <Stack.Screen name="ExploreMenu" component={Menu} options={{ headerShown: false }} />
+          <Stack.Screen name="Notification" component={Notification} options={{ headerShown: false }} />
+          <Stack.Screen name="ConfirmOder" component={ConfirmOder} options={{ headerShown: false }} />
 
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen name="Payment" component={Payment} options={{ headerShown: false }} />
+          <Stack.Screen name="Shipping" component={Shipping} options={{ headerShown: false }} />
+          <Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
+
+        </Stack.Navigator>
+      </NavigationContainer>
+    </TotalProvider>
   );
-}
+} 
