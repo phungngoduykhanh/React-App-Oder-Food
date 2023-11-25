@@ -7,12 +7,10 @@ import Chat from "./components/Chat";
 import BottomTab from "./navigation/BottomTab";
 import Call from "./screens/Call";
 import DetailMenu from "./screens/DetailMenu";
-import HomeScreen from './components/Home/Home';
 import SearchScreen from './components/Home/SearchScreen';
 import Menu from './components/Home/Menu';
 import Restaurant from './components/Home/Restaurant';
 import Notification from './components/Home/Notification';
-import OderDetail from "./components/OderDetail/OderDetail";
 import ConfirmOder from "./components/ConfirmOder/ConfirmOder";
 
 import SignUp from "./screens/SignUp";
@@ -22,7 +20,6 @@ import UploadPreview from "./screens/UploadPreview";
 import SetLocation from "./screens/SetLocation";
 import SignUpSuccess from "./screens/SignUpSuccess";
 import { TotalProvider } from "./components/OderDetail/TotalContext/TotalContext";
-import YourComponent from "./components/DetailProduct/DetailProduct";
 import Payment from "./components/Payment/Payment";
 import Shipping from "./components/Shipping/Shipping";
 import Map from "./components/Map/Map";
@@ -60,76 +57,66 @@ export default function App() {
             name="Call"
             component={Call}
 
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="DetailMenu"
-          component={DetailMenu}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="DetailMenu"
+            component={DetailMenu}
 
-          options={{
-            headerShown: false,
-          }}
-        />
-         <Stack.Screen
-          name="SignUp"
-          component={SignUp}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUp}
 
-          options={{
-            headerShown: false,
-          }}
-        />
-         <Stack.Screen
-          name="Register"
-          component={Register}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={Register}
 
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="UploadPhoto"
-          component={UploadPhoto}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="UploadPhoto"
+            component={UploadPhoto}
 
-          options={{
-            headerShown: false,
-          }}
-        />
-       <Stack.Screen
-          name="UploadPreview"
-          component={UploadPreview}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="UploadPreview"
+            component={UploadPreview}
 
-          options={{
-            headerShown: false,
-          }}
-        />
-         <Stack.Screen
-          name="SetLocation"
-          component={SetLocation}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="SetLocation"
+            component={SetLocation}
 
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="SignUpSuccess"
-          component={SignUpSuccess}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="SignUpSuccess"
+            component={SignUpSuccess}
 
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Search"
-          component={SearchScreen}
-          options={{ title: 'Tìm kiếm', headerShown: true }} // Hiển thị tiêu đề
-        />
-        <Stack.Screen name="ExploreRestaurant" component={Restaurant} options={{ headerShown: false }} />
-        <Stack.Screen name="ExploreMenu" component={Menu} options={{ headerShown: false }} />
-        <Stack.Screen name="Notification" component={Notification} options={{ headerShown: false }} />
-
-
+            options={{
+              headerShown: false,
+            }}
+          />
           <Stack.Screen
             name="Search"
             component={SearchScreen}
