@@ -5,7 +5,7 @@ import { TouchableOpacity, Image } from 'react-native';
 import { View, Text, StyleSheet } from 'react-native';
 import { useState } from 'react';
 
-export default function Item({ item, updateQuantity,deleteItem }) {
+export default function Item({ item, updateQuantity, deleteItem }) {
 
     const handleIncrease = () => {
         updateQuantity(item.id, item.quantity + 1);
@@ -29,7 +29,7 @@ export default function Item({ item, updateQuantity,deleteItem }) {
 
                     }}
                     activeOpacity={1}
-                    onPress={()=>deleteItem(item.id)}
+                    onPress={() => deleteItem(item.id)}
                 >
                     <FontAwesomeIcon icon={faTrashCan} color='white' />
                 </TouchableOpacity>
@@ -40,7 +40,7 @@ export default function Item({ item, updateQuantity,deleteItem }) {
         <View style={styles.item}>
             <Swipeout right={swipeoutBtns} style={{ backgroundColor: "rgba(107, 81, 246, 1)", borderTopEndRadius: 20, borderBottomEndRadius: 20 }}>
                 <View style={styles.itemContent}>
-                    <Image style={{ width: 60, height: 60, marginRight: 20, marginTop: 3 }} source={item.image} />
+                    <Image style={{ width: 60, height: 60, marginRight: 20, marginTop: 3,borderRadius:10 }} source={{ uri: item.img }} />
                     <View style={{ flex: 1 }}>
                         <Text style={styles.name} >{item.name}</Text>
                         <Text style={styles.subName} >{item.subName}</Text>

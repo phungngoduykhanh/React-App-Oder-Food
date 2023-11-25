@@ -1,7 +1,8 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 const HomeScreen = () => {
     const navigation = useNavigation();
     const handleSearch = () => {
@@ -16,6 +17,22 @@ const HomeScreen = () => {
     const handleNotification = () => {
         navigation.navigate('Notification')
     }
+    const [dataPopular, setDataPopular] = useState([]);
+
+    useEffect(() => {
+        const apiUrl = 'https://656153d3dcd355c08323c1ac.mockapi.io/api/PopularMenu';
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(apiUrl);
+                const limitedPopulars = response.data.slice(0, 3);
+                setDataPopular(limitedPopulars)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData()
+    }, [])
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -86,52 +103,30 @@ const HomeScreen = () => {
                     <Text style={styles.subtextView} onPress={handleExploreMenu}>View Morer</Text>
                 </View>
                 <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("DetailMenu");
-                }}
-              >
-                <View style={styles.subtitlePopular}>
-                    <View style={styles.imagePopular}>
-                        <Image
-                            source={require('../../assets/Home/Green.png')}
-                            style={styles.greenImage}
-                        />
-                        <View style={styles.items}>
-                            <View style={styles.nameFood}>
-                                <Text style={styles.titleImageText}>Green Noddle</Text>
-                                <Text style={styles.subtitleimageText}>Warung Herbal</Text>
-                            </View>
-                            <Text style={styles.dolar}>$7</Text>
-                        </View>
-                    </View>
-                    <View style={styles.imagePopular}>
-                        <Image
-                            source={require('../../assets/Home/Fruits.png')}
-                            style={styles.greenImage}
-                        />
-                        <View style={styles.items}>
-                            <View style={styles.nameFood}>
-                                <Text style={styles.titleImageText}>Fruit Salad</Text>
-                                <Text style={styles.subtitleimageText}>Wijie Resto</Text>
-                            </View>
-                            <Text style={styles.dolar}>$10</Text>
-                        </View>
-                    </View>
-                    <View style={styles.imagePopular}>
-                        <Image
-                            source={require('../../assets/Home/Herbal.png')}
-                            style={styles.greenImage}
-                        />
-                        <View style={styles.items}>
-                            <View style={styles.nameFood}>
-                                <Text style={styles.titleImageText}>Herbal Pancake</Text>
-                                <Text style={styles.subtitleimageText}>Noodle Home</Text>
-                            </View>
-                            <Text style={styles.dolar}>$20</Text>
-                        </View>
-                    </View>
+                    onPress={() => {
+                        navigation.navigate("ExploreMenu");
+                    }}
+                >
+                    <View style={styles.subtitlePopular}>
+                        {dataPopular && dataPopular.map(item => (
 
-                </View>
+                            <View style={styles.imagePopular} key={item.id}>
+                                <Image
+                                    source={{ uri: item.img }}
+                                    style={styles.greenImage}
+                                />
+                                <View style={styles.items}>
+                                    <View style={styles.nameFood}>
+                                        <Text style={styles.titleImageText}>{item.name}</Text>
+                                        <Text style={styles.subtitleimageText}>{item.subName}</Text>
+                                    </View>
+                                    <Text style={styles.dolar}>${item.price}</Text>
+                                </View>
+                            </View>
+                        ))
+                        }
+
+                    </View>
                 </TouchableOpacity>
             </View>
 
