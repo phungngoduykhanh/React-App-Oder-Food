@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,14 +8,25 @@ import {
   ImageBackground,
   TextInput,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function SignIn({ navigation }) {
-  const handleSignUpClick = () => {
-    navigation.navigate("SignUp");
-  };
-  const handleRegisterClick = () => {
+export default function User({ navigation }) {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegisterClick = async () => {
+    // Lưu trữ dữ liệu vào AsyncStorage
+    try {
+      await AsyncStorage.setItem("username", username);
+      await AsyncStorage.setItem("email", email);
+      await AsyncStorage.setItem("password", password);
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
     navigation.navigate("Register");
   };
+
   return (
     <ImageBackground
       source={require("../assets/Pattern_ChatDetails.png")}
@@ -36,10 +47,13 @@ export default function SignIn({ navigation }) {
           />
           <TextInput
             style={styles.input}
-            placeholder="madeofzero . . |"
-            placeholderTextColor="#22242E"
+            placeholder="Username"
+            placeholderTextColor="#000"
+            value={username}
+            onChangeText={(text) => setUsername(text)}
           />
         </View>
+
         <View style={styles.inputContainer}>
           <Image
             source={require("../assets/Message.png")}
@@ -48,9 +62,12 @@ export default function SignIn({ navigation }) {
           <TextInput
             style={styles.input}
             placeholder="Email"
-            placeholderTextColor="#22242E"
+            placeholderTextColor="#000"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
+
         <View style={styles.inputContainer}>
           <Image
             source={require("../assets/Lock.png")}
@@ -59,13 +76,17 @@ export default function SignIn({ navigation }) {
           <TextInput
             style={styles.input}
             placeholder="Password"
-            placeholderTextColor="#22242E"
+            placeholderTextColor="#000"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={(text) => setPassword(text)}
           />
           <Image
             source={require("../assets/Show.png")}
             style={styles.inputIconShow}
           />
         </View>
+
         <View style={styles.checkBox}>
           <View style={styles.check}>
             <Image
@@ -75,6 +96,7 @@ export default function SignIn({ navigation }) {
           </View>
           <Text style={styles.checkText}>Keep Me Signed In</Text>
         </View>
+
         <View style={styles.checkBox}>
           <View style={styles.check}>
             <Image
@@ -84,6 +106,7 @@ export default function SignIn({ navigation }) {
           </View>
           <Text style={styles.checkText}>Email Me About Special Pricing</Text>
         </View>
+
         <TouchableOpacity style={styles.createAccountButton}>
           <Text
             style={styles.createAccountButtonText}
@@ -92,9 +115,6 @@ export default function SignIn({ navigation }) {
             Create Account
           </Text>
         </TouchableOpacity>
-        <Text style={styles.tex} onPress={handleSignUpClick}>
-          already have an account?
-        </Text>
       </View>
     </ImageBackground>
   );
@@ -149,7 +169,7 @@ const styles = StyleSheet.create({
   },
   input: {
     alignItems: "center",
-    opacity: 0.3,
+    // opacity: 0.3,
   },
   check: {
     width: 24,

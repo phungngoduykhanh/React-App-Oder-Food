@@ -10,6 +10,9 @@ import {
 } from "react-native";
 
 export default function SignUpSuccess({ navigation }) {
+  const handleSignUpClick = () => {
+    navigation.navigate("LogIn");
+  };
   const handleBackPress = () => {
     navigation.goBack();
   };
@@ -29,7 +32,7 @@ export default function SignUpSuccess({ navigation }) {
         <Text style={styles.congratsText}>Congrats!</Text>
         <Text style={styles.successText}>Your Profile Is Ready To Use</Text>
         <TouchableOpacity style={styles.buttonNext}>
-        <Text style={styles.textNext}>Done</Text>
+        <Text style={styles.textNext} onPress={handleSignUpClick}>Done</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>

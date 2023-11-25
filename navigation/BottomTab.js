@@ -3,6 +3,7 @@ import { Image, View, Text, StyleSheet } from "react-native";
 import React from "react";
 import Home from '../components/Home/Home';
 import User from "../components/User";
+import LogIn from "../screens/LogIn";
 import Cart from "../components/OderDetail/OderDetail";
 import Chat from "../components/Chat";
 const Tab = createBottomTabNavigator();
@@ -11,7 +12,7 @@ function getTabIconSource(tabName) {
   switch (tabName) {
     case "Home":
       return require("../assets/Home.png");
-    case "User":
+    case "LogIn":
       return require("../assets/Profile_Icon.png");
     case "Cart":
       return require("../assets/Buy.png");
@@ -51,7 +52,7 @@ const BottomTab = () => {
       }}
     >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="User" component={User} />
+      <Tab.Screen name="LogIn" component={LogIn} />
       <Tab.Screen name="Cart" component={Cart} />
       <Tab.Screen name="Chat" component={Chat} />
     </Tab.Navigator>

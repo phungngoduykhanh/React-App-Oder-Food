@@ -8,8 +8,37 @@ import {
   ImageBackground,
   TextInput,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function SignUp({ navigation }) {
+
+export default function LogIn({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegisteClick = async () => {
+    // Lấy dữ liệu từ AsyncStorage
+    try {
+      const storedEmail = await AsyncStorage.getItem("email");
+      const storedPassword = await AsyncStorage.getItem("password");
+
+      // Kiểm tra xem email và password có khớp với dữ liệu đã lưu hay không
+      if (email === storedEmail && password === storedPassword) {
+        // Nếu khớp, chuyển hướng đến trang Profile (hoặc trang khác tùy vào logic của bạn)
+        navigation.navigate("Profile");
+      } else {
+        // Nếu không khớp, hiển thị thông báo lỗi
+        alert("Incorrect email or password. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error retrieving data:", error);
+    }
+  };
+  const handleRegisterClick = () => {
+    navigation.navigate("User");
+  };
+  // const handleProfileClick = () => {
+  //   navigation.navigate("Profile");
+  // };
   return (
     <ImageBackground
       source={require("../assets/Pattern_ChatDetails.png")}
@@ -31,6 +60,8 @@ export default function SignUp({ navigation }) {
             style={styles.input}
             placeholder="Email"
             placeholderTextColor="#22242E"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -42,6 +73,9 @@ export default function SignUp({ navigation }) {
             style={styles.input}
             placeholder="Password"
             placeholderTextColor="#22242E"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={(text) => setPassword(text)}
           />
         </View>
         <Text style={styles.textCon}>Or Continue With</Text>
@@ -63,10 +97,11 @@ export default function SignUp({ navigation }) {
         </View>
 
         <Text style={styles.tex}>Forgot Your Password?</Text>
+        <Text style={styles.tex} onPress={handleRegisterClick}>Create account</Text>
         <TouchableOpacity
           style={styles.createAccountButton}
-         
-        >
+          onPress={handleRegisteClick}
+        > 
           <Text style={styles.createAccountButtonText}>Login</Text>
         </TouchableOpacity>
       </View>
@@ -129,7 +164,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: "auto",
     marginRight: "auto",
-    color: "#22242E",
+    color: "#000",
     fontSize: 15,
     fontWeight: "bold",
     marginBottom: 20,
@@ -177,6 +212,6 @@ const styles = StyleSheet.create({
     color: "#6B50F6",
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom: 30,
+    marginBottom: 10,
   },
 });
