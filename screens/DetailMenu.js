@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Animated,
   PanResponder,
@@ -15,6 +15,8 @@ import {
   TouchableOpacity
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width: WINDOW_WIDTH, height: WINDOW_HEIGHT } = Dimensions.get("window");
 const BOTTOM_SHEET_MAX_HEIGHT = WINDOW_HEIGHT * 0.96;
@@ -24,7 +26,56 @@ const MAX_UPWARD_TRANSLATE_Y =
 const MAX_DOWNWARD_TRANSLATE_Y = 0;
 const DRAG_THRESHOLD = 50;
 
+
+
 const DetailMenu = () => {
+  const [dataPopular, setDataPopular] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const IdPopulerItem = await AsyncStorage.getItem('IdPopulerItem');
+        if (IdPopulerItem !== null) {
+          const apiUrl = `https://656153d3dcd355c08323c1ac.mockapi.io/api/PopularMenu/${IdPopulerItem}`;
+          const response = await axios.get(apiUrl);
+          setDataPopular(response.data)
+        } else {
+          console.log('Không có ID trong Local Storage.');
+        }
+      } catch (error) {
+        console.error('Lỗi khi đọc ID từ Local Storage:', error);
+      }
+    };
+    fetchData()
+  }, [])
+
+  const handleAddToCart = () => {
+    const fetchData = async () => {
+      try {
+        const IdPopulerItem = await AsyncStorage.getItem('IdPopulerItem');
+        if (IdPopulerItem !== null) {
+          var apiUrl = `https://656153d3dcd355c08323c1ac.mockapi.io/api/PopularMenu/${IdPopulerItem}`;
+          var response = await axios.get(apiUrl);
+          const dataPopular = response.data
+
+        const newData = {
+          ...dataPopular,
+          quantity: 1
+        }
+        var apiUrl = `https://656153d3dcd355c08323c1ac.mockapi.io/api/Cart`;
+        var response = await axios.post(apiUrl, newData);
+        setTimeout(() => {
+          alert("Add To Cart Success")
+
+        }, 1300);
+      }
+      } catch (error) {
+        console.error('Lỗi khi đọc ID từ Local Storage:', error);
+      }
+    };
+    fetchData()
+  }
+
   const listMenu = [
     {
       id: "0",
@@ -121,224 +172,220 @@ const DetailMenu = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground
-        source={require("../assets/DetailProduct.png")}
-        style={{
-          width: "100%",
-          height: "65%",
-        }}
-        resizeMode="cover"
-      ></ImageBackground>
-      <Animated.View style={[styles.bottomSheet, bottomSheetAnimation]}>
-        <View style={styles.draggableArea} {...panResponder.panHandlers}>
-          <View style={styles.dragHandle} />
-        </View>
-        <View
-          style={{
-            flexDirection: "row", // Sắp xếp chữ và ảnh cùng hàng
-            alignItems: "center", // Canh giữa theo chiều dọc
-          }}
-        >
-          <View
+      {dataPopular && (
+        <>
+          <ImageBackground
+            source={{ uri: dataPopular.img }}
             style={{
-              marginHorizontal: 20,
-              paddingVertical: 8,
-              backgroundColor: "#e6fff0",
-              borderRadius: 23,
-              marginRight: 280,
+              width: "100%",
+              height: "65%",
             }}
-          >
-            <Text
-              style={{
-                color: "#6B50F6",
-                fontWeight: "500",
-              }}
-            >
-              Popular
-            </Text>
-          </View>
-          <Image
-            style={styles.iconLocation}
-            source={require("../assets/Location_Icon.png")}
-          />
-          <Image
-            style={styles.iconHeart}
-            source={require("../assets/Heart.png")}
-          />
-        </View>
-
-        <View
-          style={{
-            marginHorizontal: 20,
-            paddingTop: 15,
-
-            justifyContent: "space-between",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-            }}
-          >
-            Rainbow Sandwich
-          </Text>
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-            }}
-          >
-            Sugarless
-          </Text>
-        </View>
-        <View style={styles.reView}>
-          <View style={styles.starGroup}>
-            <Image
-              style={styles.iconStar}
-              source={require("../assets/Icon_Star.png")}
-            />
-            <Text style={styles.textRe}>4,8 Rating</Text>
-          </View>
-          <View style={styles.shopGroup}>
-            <Image
-              style={styles.iconBag}
-              source={require("../assets/Shopping_Bag.png")}
-            />
-            <Text style={styles.textRe}>2000+ Order</Text>
-          </View>
-        </View>
-        <Text style={styles.desText}>
-          Nulla occaecat velit laborum exercitation ullamco. Elit labore eu aute
-          elit nostrud culpa velit excepteur deserunt sunt. Velit non est cillum
-          consequat cupidatat ex Lorem laboris labore aliqua ad duis eu laborum.
-        </Text>
-        <Text style={styles.centerText}>Strawberry</Text>
-        <Text style={styles.centerText}>Cream</Text>
-        <Text style={styles.centerText}>Wheat</Text>
-        <Text style={styles.descText}>
-          Nulla occaecat velit laborum exercitation ullamco. Elit labore eu aute
-          elit nostrud culpa velit excepteur deserunt sunt.
-        </Text>
-
-        <Text style={{ fontSize: 18, fontWeight: "700", marginHorizontal: 20 }}>
-          Testimonials
-        </Text>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{
-            flexDirection: "column",
-            marginHorizontal: 20,
-            marginBottom: 70,
-          }}
-        >
-          {listMenu.map((item, index) => (
+            resizeMode="cover"
+          ></ImageBackground>
+          <Animated.View style={[styles.bottomSheet, bottomSheetAnimation]}>
+            <View style={styles.draggableArea} {...panResponder.panHandlers}>
+              <View style={styles.dragHandle} />
+            </View>
             <View
-              key={index}
               style={{
-                flexDirection: "row",
-                backgroundColor: "#ffffff",
-                marginVertical: 10,
-                borderRadius: 14,
-                alignItems: "center",
-                paddingVertical: 15,
-                paddingHorizontal: 15,
+                flexDirection: "row", // Sắp xếp chữ và ảnh cùng hàng
+                alignItems: "center", // Canh giữa theo chiều dọc
               }}
             >
-              <Image
-                style={{ width: 70, height: 70, resizeMode: "contain" }}
-                source={item.image}
-              />
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: 200,
-                  alignItems: "center",
+                  marginHorizontal: 20,
+                  paddingVertical: 8,
+                  backgroundColor: "#e6fff0",
+                  borderRadius: 23,
+                  marginRight: 280,
                 }}
               >
-                <View
+                <Text
                   style={{
-                    flexDirection: "column",
-                    justifyContent: "flex-start",
+                    color: "#6B50F6",
+                    fontWeight: "500",
                   }}
                 >
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      fontSize: 16,
-                      fontWeight: "500",
-                      fontWeight: "900",
-                      marginLeft: 30,
-                    }}
-                  >
-                    {item?.userName}
-                  </Text>
-                  <Text
-                    style={{
-                      marginTop: 3,
-                      fontSize: 13,
-                      fontWeight: "500",
-                      lineHeight: 17,
-                      color: "#BBBBBB",
-                      marginLeft: 30,
-                    }}
-                  >
-                    {item?.date}
-                  </Text>
-                </View>
-                <Pressable
+                  Popular
+                </Text>
+              </View>
+              <Image
+                style={styles.iconLocation}
+                source={require("../assets/Location_Icon.png")}
+              />
+              <Image
+                style={styles.iconHeart}
+                source={require("../assets/Heart.png")}
+              />
+            </View>
+
+            <View
+              style={{
+                marginHorizontal: 20,
+                paddingTop: 15,
+
+                justifyContent: "space-between",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 25,
+                  fontWeight: "bold",
+                }}
+              >
+                {dataPopular.name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "600",
+                }}
+              >
+                {dataPopular.subName}
+              </Text>
+            </View>
+            <View style={styles.reView}>
+              <View style={styles.starGroup}>
+                <Image
+                  style={styles.iconStar}
+                  source={require("../assets/Icon_Star.png")}
+                />
+                <Text style={styles.textRe}>4,8 Rating</Text>
+              </View>
+              <View style={styles.shopGroup}>
+                <Image
+                  style={styles.iconBag}
+                  source={require("../assets/Shopping_Bag.png")}
+                />
+                <Text style={styles.textRe}>2000+ Order</Text>
+              </View>
+            </View>
+            <Text style={styles.desText}>
+              {dataPopular.desc}
+            </Text>
+
+            <Text style={{ fontSize: 18, fontWeight: "700", marginHorizontal: 20 }}>
+              Testimonials
+            </Text>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={{
+                flexDirection: "column",
+                marginHorizontal: 20,
+                marginBottom: 70,
+              }}
+            >
+              {listMenu.map((item, index) => (
+                <View
+                  key={index}
                   style={{
-                    borderRadius: 17,
-                    // backgroundColor: "#6B50F6",
-                    backgroundColor: "rgba(107, 80, 246, 0)",
-                    paddingVertical: 5,
-                    paddingHorizontal: 11,
                     flexDirection: "row",
-                    marginLeft: 100,
-                    // opacity: 0.1, 
+                    backgroundColor: "#ffffff",
+                    marginVertical: 10,
+                    borderRadius: 14,
+                    alignItems: "center",
+                    paddingVertical: 15,
+                    paddingHorizontal: 15,
                   }}
                 >
                   <Image
-                    style={styles.iconStar}
-                    source={require("../assets/Star.png")}
+                    style={{ width: 70, height: 70, resizeMode: "contain" }}
+                    source={item.image}
                   />
-                  <Text
+                  <View
                     style={{
-                      color: "#6B50F6", 
-                      fontWeight: "500",
-                      marginLeft:5
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      width: 200,
+                      alignItems: "center",
                     }}
                   >
-                    5
-                  </Text>
-                </Pressable>
-              </View>
-            </View>
-          ))}
-        </ScrollView>
-        
-      </Animated.View>
-      <TouchableOpacity
-        style={{
-          backgroundColor: '#6B50F6',
-          borderRadius: 15,
-          paddingVertical: 10,
-          paddingHorizontal: 20,
-          marginTop: 200,
-          width:326,
-          height:57,
-          marginLeft:"auto",
-          marginRight:"auto",
-          alignItems: 'center', 
-          justifyContent: 'center',
-        }}
-        // onPress={() => /* Xử lý khi nút được nhấn */}
-      >
-        <Text style={{ color: '#fff', fontSize:14,fontWeight:"bold" }}>Add to Chart</Text>
-      </TouchableOpacity>
+                    <View
+                      style={{
+                        flexDirection: "column",
+                        justifyContent: "flex-start",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          fontSize: 16,
+                          fontWeight: "500",
+                          fontWeight: "900",
+                          marginLeft: 30,
+                        }}
+                      >
+                        {item?.userName}
+                      </Text>
+                      <Text
+                        style={{
+                          marginTop: 3,
+                          fontSize: 13,
+                          fontWeight: "500",
+                          lineHeight: 17,
+                          color: "#BBBBBB",
+                          marginLeft: 30,
+                        }}
+                      >
+                        {item?.date}
+                      </Text>
+                    </View>
+                    <Pressable
+                      style={{
+                        borderRadius: 17,
+                        // backgroundColor: "#6B50F6",
+                        backgroundColor: "rgba(107, 80, 246, 0)",
+                        paddingVertical: 5,
+                        paddingHorizontal: 11,
+                        flexDirection: "row",
+                        marginLeft: 100,
+                        // opacity: 0.1, 
+                      }}
+                    >
+                      <Image
+                        style={styles.iconStar}
+                        source={require("../assets/Star.png")}
+                      />
+                      <Text
+                        style={{
+                          color: "#6B50F6",
+                          fontWeight: "500",
+                          marginLeft: 5
+                        }}
+                      >
+                        5
+                      </Text>
+                    </Pressable>
+                  </View>
+                </View>
+              ))}
+            </ScrollView>
+
+          </Animated.View>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#6B50F6',
+              borderRadius: 15,
+              paddingVertical: 10,
+              paddingHorizontal: 20,
+              marginTop: 200,
+              width: 326,
+              height: 57,
+              marginLeft: "auto",
+              marginRight: "auto",
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={handleAddToCart}
+          >
+            <Text style={{ color: '#fff', fontSize: 14, fontWeight: "bold" }} >Add to Cart</Text>
+          </TouchableOpacity>
+        </>
+      )}
+
     </SafeAreaView>
-    
+
   );
 };
 

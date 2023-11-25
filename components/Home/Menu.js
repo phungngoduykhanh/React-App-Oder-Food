@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,34 +6,28 @@ import {
   Text,
   ScrollView,
   Image,
-  TextInput,
   FlatList,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const ExploreMenu = () => {
-  const Menu = [
-    {
-      id: 1,
-      image: require("../../assets/Home/MenuPhoto.png"),
-      nameMenu: "Herbar Pancake",
-      name: "Warung Herbal",
-      price: "$7",
-    },
-    {
-      id: 2,
-      image: require("../../assets/Home/Menu.png"),
-      nameMenu: "Fruit Salad",
-      name: "Wijie Resto",
-      price: "$5",
-    },
-    {
-      id: 3,
-      image: require("../../assets/Home/Photo.png"),
-      nameMenu: "Green  Noddle",
-      name: "Noodle Home",
-      price: "$15",
-    },
-  ];
+
+  const [dataPopular, setDataPopular] = useState([]);
+
+  useEffect(() => {
+    const apiUrl = 'https://656153d3dcd355c08323c1ac.mockapi.io/api/PopularMenu';
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(apiUrl);
+        setDataPopular(response.data)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData()
+  }, [])
   const navigation = useNavigation();
   const handleFilterScreen = () => {
     navigation.navigate("FilterScreen");
@@ -76,32 +70,41 @@ const ExploreMenu = () => {
         <Text style={styles.textNe}>Popular Menu</Text>
       </View>
       <View>
+
         <FlatList
-          data={Menu}
+          data={dataPopular}
           horizontal={false}
           style={styles.viewListItem}
           contentContainerStyle={{ gap: 31, width: "100%" }}
           renderItem={({ item }) => (
-            <View style={styles.viewMenu} key={item.id}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("DetailMenu");
-                }}
-              >
+            <TouchableOpacity style={styles.viewMenu} key={item.id} onPress={() => {
+              navigation.navigate("DetailMenu");
+              const saveId = async ()=>{
+                try {
+                  await AsyncStorage.setItem('IdPopulerItem',item.id);
+                }
+                catch(e){
+                  console.log(e);
+                }
+              }
+              saveId()
+            }}>
+              <View>
                 <View style={styles.viewImageMenu}>
-                  <Image source={item.image} />
+                  <Image source={{ uri: item.img }} style={{ width: 60, height: 60, borderRadius: 10, marginTop: 3 }} />
                   <View style={styles.viewTexts}>
-                    <Text style={styles.textmenu}>{item.nameMenu}</Text>
-                    <Text style={styles.textName}>{item.name}</Text>
+                    <Text style={styles.textmenu}>{item.name}</Text>
+                    <Text style={styles.textName}>{item.subName}</Text>
                   </View>
                 </View>
-              </TouchableOpacity>
-              <View style={styles.viewPrice}>
-                <Text style={styles.textPrice}>{item.price}</Text>
               </View>
-            </View>
+              <View style={styles.viewPrice}>
+                <Text style={styles.textPrice}>${item.price}</Text>
+              </View>
+            </TouchableOpacity>
           )}
         />
+
       </View>
     </ScrollView>
   );

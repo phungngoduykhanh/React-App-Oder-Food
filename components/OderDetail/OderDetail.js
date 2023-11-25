@@ -6,21 +6,30 @@ import { useNavigation } from '@react-navigation/native';
 import BackButton from "../../assets/BackButton.png";
 import Item from './Item/Item';
 import { TotalContext } from './TotalContext/TotalContext';
-
+import axios from 'axios';
 export default function OderDetail() {
 
     const navigation = useNavigation();
 
-    const [items, setItems] = useState([
-        { id: 1, name: 'Spacy fresh crab', subName: 'Waroenk kita', price: 35, quantity: 1, image: require("../../assets/Food1.png") },
-        { id: 2, name: 'Spacy fresh crab', subName: 'Waroenk kita', price: 50, quantity: 1, image: require("../../assets/Food2.png") },
-    ]);
+    const [items, setItems] = useState([]);
 
     const { total, setTotal } = useContext(TotalContext);
 
     useEffect(() => {
-        const initialTotal = caculateTotalPrice(items);
-        setTotal(initialTotal);
+        const apiUrl = 'https://656153d3dcd355c08323c1ac.mockapi.io/api/Cart';
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(apiUrl);
+                setItems(response.data)
+                const initialTotal = caculateTotalPrice(response.data);
+                setTotal(initialTotal);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData()
+
     }, []);
 
     const handleBackButton = () => {
@@ -69,7 +78,7 @@ export default function OderDetail() {
                     )}
                 />
 
-                <MenuTotal total={total} url={'ConfirmOder'}/>
+                <MenuTotal total={total} url={'ConfirmOder'} />
 
 
             </ImageBackground>
@@ -105,7 +114,7 @@ export function MenuTotal({ total, url }) {
                         <Text style={[styles.textColor, { fontSize: 18, fontWeight: 700 }]}>Total</Text>
                         <Text style={[styles.textColor, { fontSize: 18, fontWeight: 700 }]}>{total} $</Text>
                     </View>
-                    <TouchableOpacity onPress={()=>handleConfirmOder(url)} style={{ backgroundColor: "white", width: 300, height: 48, marginHorizontal: 13, justifyContent: "center", alignItems: "center", borderRadius: 10, marginLeft: 45 }} >
+                    <TouchableOpacity onPress={() => handleConfirmOder(url)} style={{ backgroundColor: "white", width: 300, height: 48, marginHorizontal: 13, justifyContent: "center", alignItems: "center", borderRadius: 10, marginLeft: 45 }} >
                         <Text style={[styles.buttonText, { color: "#6B50F6", fontWeight: 700 }]}>Place My Order</Text>
                     </TouchableOpacity>
                 </View>

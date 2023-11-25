@@ -10,6 +10,7 @@ const SearchScreen = () => {
     const [searchType, setSearchType] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
     const navigation = useNavigation();
+    
 
     const handleSearch = () => {
         const menuResults = menus.filter((item) =>
@@ -35,7 +36,12 @@ const SearchScreen = () => {
             setSearchResults([]);
         }
     };
-
+    const handleExploreRestaurant = () => {
+        navigation.navigate('ExploreRestaurant');
+    };
+    const handleExploreMenu = () => {
+        navigation.navigate('ExploreMenu');
+    };
     const handleNotification = () => {
         navigation.navigate('Notification');
     };
@@ -85,10 +91,10 @@ const SearchScreen = () => {
                 </View>
                 <View style={styles.viewListType}>
                     <TouchableOpacity style={styles.button}>
-                        <Text style={styles.textRes}>Restaurant</Text>
+                        <Text style={styles.textRes} onPress={handleExploreRestaurant} >Restaurant</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button}>
-                        <Text style={styles.textRes}>Menu</Text>
+                        <Text style={styles.textRes} onPress={handleExploreMenu}>Menu</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.viewbuttonSearch}>
